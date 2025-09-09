@@ -425,9 +425,11 @@ static void GuiCreateMoreWidgets(lv_obj_t *parent)
         height = 132;
     }
 #else
-    int height = 324;
-    if (g_chainCard != HOME_WALLET_CARD_BTC && g_chainCard != HOME_WALLET_CARD_LTC) {
-        height = 132;
+    int height = 132;
+    if (g_chainCard == HOME_WALLET_CARD_BTC) {
+        height = 324;
+    } else if (g_chainCard == HOME_WALLET_CARD_LTC) {
+        height = 208;
     }
 #endif
     g_utxoReceiveWidgets.moreCont = GuiCreateHintBox(height);
@@ -446,7 +448,6 @@ static void GuiCreateMoreWidgets(lv_obj_t *parent)
     {
         switch (g_chainCard) {
         case HOME_WALLET_CARD_BTC:
-        case HOME_WALLET_CARD_LTC:
             btn = GuiCreateSelectButton(cont, _("receive_btc_more_address_settings"), &imgAddressType,
                                         AddressSettingsHandler, NULL, true);
             lv_obj_align(btn, LV_ALIGN_TOP_MID, 0, 24 + 476);
@@ -456,6 +457,10 @@ static void GuiCreateMoreWidgets(lv_obj_t *parent)
                                         ExportXpubHandler, NULL, true);
             lv_obj_align(btn, LV_ALIGN_TOP_MID, 0, 120 + 476);
             break;
+        case HOME_WALLET_CARD_LTC:
+            btn = GuiCreateSelectButton(cont, _("receive_btc_more_address_settings"), &imgAddressType,
+                                        AddressSettingsHandler, NULL, true);
+            lv_obj_align(btn, LV_ALIGN_TOP_MID, 0, 120 + 476);
         default:
             break;
         }
@@ -1186,6 +1191,9 @@ static void TutorialHandler(lv_event_t *e)
     GUI_DEL_OBJ(g_utxoReceiveWidgets.moreCont);
     if (g_chainCard == HOME_WALLET_CARD_BTC) {
         TUTORIAL_LIST_INDEX_ENUM tIndex = TUTORIAL_BTC_RECEIVE;
+        GuiFrameOpenViewWithParam(&g_tutorialView, &tIndex, sizeof(tIndex));
+    } else if (g_chainCard == HOME_WALLET_CARD_LTC) {
+        TUTORIAL_LIST_INDEX_ENUM tIndex = TUTORIAL_LTC_RECEIVE;
         GuiFrameOpenViewWithParam(&g_tutorialView, &tIndex, sizeof(tIndex));
     }
 }
