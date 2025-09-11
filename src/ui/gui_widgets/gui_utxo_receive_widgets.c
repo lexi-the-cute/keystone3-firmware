@@ -801,7 +801,6 @@ static void GuiCreateSwitchAddressButtons(lv_obj_t *parent)
 
 static void Highlight(char *address, uint8_t highlightStart, uint8_t highlightEnd, char *coloredAddress, uint32_t maxLen)
 {
-#ifndef COMPILE_SIMULATOR
     uint8_t addressLength = strnlen_s(address, ADDRESS_MAX_LEN);
     if (address == NULL || coloredAddress == NULL || highlightStart > highlightEnd || highlightEnd > addressLength) {
         return;
@@ -817,7 +816,6 @@ static void Highlight(char *address, uint8_t highlightStart, uint8_t highlightEn
     strcpy_s(afterHighlight, addressLength, &address[highlightEnd]);
 
     snprintf_s(coloredAddress, maxLen, "%s#F5870A %s#%s", beforeHighlight, highlight, afterHighlight);
-#endif
 }
 
 #ifndef BTC_ONLY
@@ -831,7 +829,18 @@ static void RefreshDefaultAddress(void)
     ChainType chainType;
     chainType = GetChainTypeByIndex(g_selectType);
 
-    uint8_t highlightEnd = (chainType == XPUB_TYPE_BTC_NATIVE_SEGWIT || chainType == XPUB_TYPE_BTC_TAPROOT) ? 4 : 1;
+    uint8_t highlightEnd = 0;
+    switch (chainType) {
+    case XPUB_TYPE_BTC_NATIVE_SEGWIT:
+    case XPUB_TYPE_BTC_TAPROOT:
+#ifdef WEB3_VERSION
+    case XPUB_TYPE_LTC_NATIVE_SEGWIT:
+#endif
+        highlightEnd = 4;
+        break;
+    default:
+        highlightEnd = 1;
+    }
     ModelGetUtxoAddress(0, &addressDataItem);
     CutAndFormatString(address, sizeof(address), addressDataItem.address, 24);
     Highlight(address, 0, highlightEnd, highlightAddress, sizeof(highlightAddress));

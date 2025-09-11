@@ -431,7 +431,8 @@ UREncodeResult *GuiGetKeystoneConnectWalletData(void)
     // + trx 1
     // + doge 1
     // + xrp 1
-    ExtendedPublicKey keys[8];
+    // + ltc 2
+    ExtendedPublicKey keys[10];
     public_keys->data = keys;
     public_keys->size = NUMBER_OF_ARRAYS(keys);
 
@@ -459,6 +460,12 @@ UREncodeResult *GuiGetKeystoneConnectWalletData(void)
 
     keys[7].path = GetXPubPath(XPUB_TYPE_XRP);
     keys[7].xpub = GetCurrentAccountPublicKey(XPUB_TYPE_XRP);
+
+    keys[8].path = GetXPubPath(XPUB_TYPE_LTC);
+    keys[8].xpub = GetCurrentAccountPublicKey(XPUB_TYPE_LTC);
+
+    keys[9].path = GetXPubPath(XPUB_TYPE_LTC_NATIVE_SEGWIT);
+    keys[9].xpub = GetCurrentAccountPublicKey(XPUB_TYPE_LTC_NATIVE_SEGWIT);
 
     // keys[3].path = GetXPubPath(XPUB_TYPE_BCH);
     // keys[3].xpub = GetCurrentAccountPublicKey(XPUB_TYPE_BCH);
