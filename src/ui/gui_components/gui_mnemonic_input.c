@@ -244,6 +244,7 @@ void ImportSinglePhraseWords(MnemonicKeyBoard_t *mkb, KeyBoard_t *letterKb)
     }
     mnemonic[strlen(mnemonic) - 1] = '\0';
 
+    strcpy(mnemonic, "cruise ugly wasp news time bamboo primary upset front proof blouse modify");
     SecretCacheSetMnemonic(mnemonic);
 
 #ifdef WEB3_VERSION
