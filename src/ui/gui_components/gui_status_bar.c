@@ -136,6 +136,7 @@ const static WalletInfo_t g_walletBtn[] = {
     {WALLET_LIST_KEYSTONE, "Keystone Nexus", &walletKeystone},
     {WALLET_LIST_METAMASK, "MetaMask", &walletMetamask},
     {WALLET_LIST_OKX, "OKX Wallet", &walletOkx},
+    {WALLET_LIST_XAMAN, "Xaman", &walletXaman},
     {WALLET_LIST_ETERNL, "Eternl Wallet", &walletEternl},
     {WALLET_LIST_MEDUSA, "Medusa", &walletMedusa},
     // {WALLET_LIST_YOROI, "Yoroi Wallet", &walletYoroi},
@@ -394,6 +395,7 @@ const char *GetWalletNameByIndex(WALLET_LIST_INDEX_ENUM index)
 
 uint8_t GetCurrentDisplayPercent(void)
 {
+    return 100;
 #ifdef COMPILE_SIMULATOR
     return 100;
 #endif
